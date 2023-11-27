@@ -159,6 +159,15 @@ class LazyLoggersTest extends TestCase
         $this->assertInstanceof(NullLogger::class, $loggers->logger());
     }
     
+    public function testLoggerMethodReturnsDefaultLoggerIfNamedNotExists()
+    {
+        $loggers = new LazyLoggers(container: new Container());
+        $logger = new NullLogger();
+        $loggers->add(name: 'primary', logger: $logger);
+        
+        $this->assertSame($logger, $loggers->logger('foo'));
+    }
+    
     public function testHasAndGetMethod()
     {
         $loggers = new LazyLoggers(container: new Container(), loggers: [

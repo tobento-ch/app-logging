@@ -56,10 +56,24 @@ class LoggerTraitTest extends TestCase
         $this->assertSame($logger, $this->getLogger());
     }
     
-    public function testUsingNamedLoggerReturnsNullLoggerIfNotExists()
+    public function testUsingNamedLoggerReturnsNullLoggerIfNoneExists()
     {
-        $logger = $this->getLogger(name: 'foo');
-        $this->assertInstanceOf(NullLogger::class, $this->getLogger());
+        $this->assertInstanceOf(NullLogger::class, $this->getLogger(name: 'foo'));
+    }
+    
+    public function testUsingNamedLoggerReturnsDefaultLoggerIfNotExists()
+    {
+        $container = new Container();
+        $logger = new NullLogger();
+        $loggers = new LazyLoggers(container: $container, loggers: [
+            'first' => $logger,
+        ]);
+        $container->set(LoggersInterface::class, $loggers);
+        
+        $functions = new Functions();
+        $functions->set(ContainerInterface::class, $container);
+        
+        $this->assertSame($logger, $this->getLogger(name: 'foo'));
     }
     
     public function testUsesNamedLogger()
