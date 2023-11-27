@@ -88,14 +88,14 @@ class LazyLoggers implements LoggersInterface
     public function logger(null|string $name = null): LoggerInterface
     {
         if (is_null($name)) {
-            $name = (string) array_key_first($this->loggers);
+            return $this->getDefaultLogger();
         }
         
         if (!is_null($logger = $this->get($name))) {
             return $logger;
         }
         
-        return new NullLogger();
+        return $this->getDefaultLogger();
     }
     
     /**
@@ -180,5 +180,21 @@ class LazyLoggers implements LoggersInterface
     public function created(): array
     {
         return $this->createdLoggers;
+    }
+    
+    /**
+     * Returns the default logger.
+     *
+     * @return LoggerInterface
+     */
+    protected function getDefaultLogger(): LoggerInterface
+    {
+        $name = (string) array_key_first($this->loggers);
+        
+        if (!is_null($logger = $this->get($name))) {
+            return $logger;
+        }
+        
+        return new NullLogger();
     }
 }
