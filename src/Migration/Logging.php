@@ -67,6 +67,8 @@ class Logging implements MigrationInterface
         return new Actions(
             new FilesCopy(
                 files: $this->files,
+                type: 'config',
+                description: 'Logging config file.',
             ),
         );
     }
@@ -79,7 +81,11 @@ class Logging implements MigrationInterface
     public function uninstall(): ActionsInterface
     {
         return new Actions(
-            new FilesDelete($this->files),
+            new FilesDelete(
+                files: $this->files,
+                type: 'config',
+                description: 'Logging config file.',
+            ),
         );
     }
 }
