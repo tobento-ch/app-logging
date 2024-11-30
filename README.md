@@ -285,6 +285,17 @@ $logger = $loggers->get('alias');
 // returns the 'daily' logger if exists.
 ```
 
+**aliases**
+
+The ```aliases``` method returns the added aliases:
+
+```php
+$loggers->addAlias(alias: 'alias', logger: 'daily');
+
+$aliases = $loggers->aliases();
+// ['alias' => 'daily']
+```
+
 **logger**
 
 The ```logger``` method returns a logger:
