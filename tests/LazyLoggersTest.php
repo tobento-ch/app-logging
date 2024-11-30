@@ -146,6 +146,19 @@ class LazyLoggersTest extends TestCase
         $this->assertSame($logger, $loggers->logger('alias'));
     }
     
+    public function testAliasesMethod()
+    {
+        $loggers = new LazyLoggers(container: new Container());
+        $logger = new NullLogger();
+        
+        $this->assertSame([], $loggers->aliases());
+        
+        $loggers->add(name: 'primary', logger: $logger);
+        $loggers->addAlias(alias: 'alias', logger: 'primary');
+        
+        $this->assertSame(['alias' => 'primary'], $loggers->aliases());
+    }
+    
     public function testLoggerMethod()
     {
         $loggers = new LazyLoggers(container: new Container());
