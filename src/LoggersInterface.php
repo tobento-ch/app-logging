@@ -40,6 +40,13 @@ interface LoggersInterface
     public function addAlias(string $alias, string $logger): static;
     
     /**
+     * Returns the aliases.
+     *
+     * @return array<string, string>
+     */
+    public function aliases(): array;
+    
+    /**
      * Returns a logger.
      *
      * @param null|string $name

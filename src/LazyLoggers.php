@@ -80,6 +80,16 @@ class LazyLoggers implements LoggersInterface
     }
     
     /**
+     * Returns the aliases.
+     *
+     * @return array<string, string>
+     */
+    public function aliases(): array
+    {
+        return $this->aliases;
+    }
+    
+    /**
      * Returns a logger.
      *
      * @param null|string $name
