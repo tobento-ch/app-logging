@@ -13,26 +13,25 @@ declare(strict_types=1);
 
 namespace Tobento\App\Logging\Monolog;
 
-use Tobento\App\Logging\Event;
-use Monolog\Handler\AbstractHandler;
-use Monolog\Logger;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Monolog\Handler\AbstractHandler;
+use Monolog\Level;
+use Monolog\Logger;
+use Monolog\LogRecord;
+use Tobento\App\Logging\Event;
 
-/**
- * EventHandler
- */
 class EventHandler extends AbstractHandler
 {
     /**
      * Create a new EventHandler.
      *
      * @param null|EventDispatcherInterface $eventDispatcher
-     * @param int|string $level
+     * @param int|string|Level $level
      * @param bool $bubble
      */
     public function __construct(
         protected null|EventDispatcherInterface $eventDispatcher = null,
-        int|string $level = Logger::DEBUG,
+        int|string|Level $level = Level::Debug,
         bool $bubble = true,
     ) {
         parent::__construct($level, $bubble);
@@ -41,17 +40,18 @@ class EventHandler extends AbstractHandler
     /**
      * Handle the record.
      *
-     * @param array $record
+     * @param LogRecord $record
      * @return bool
      */
-    public function handle(array $record): bool
+    public function handle(LogRecord $record): bool
     {
-        $record['context']['loggerName'] = $record['channel'];
+        $context = $record->context;
+        $context['loggerName'] = $record->channel;
         
         $this->eventDispatcher?->dispatch(new Event\MessageLogged(
-            strtolower(Logger::getLevelName($record['level'])),
-            $record['message'],
-            $record['context'],
+            Logger::toMonologLevel($record->level)->toPsrLogLevel(),
+            $record->message,
+            $context,
         ));
         
         return false === $this->bubble;
