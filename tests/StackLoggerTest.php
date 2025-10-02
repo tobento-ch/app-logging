@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Tobento\App\Logging\StackLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Monolog\Level;
 use Monolog\Logger;
 use Monolog\Handler\TestHandler;
 
@@ -40,8 +41,8 @@ class StackLoggerTest extends TestCase
         $stackLogger = new StackLogger($logger, $loggerBar);
         $stackLogger->log('error', 'message');
         
-        $this->assertTrue($testHandler->hasRecordThatContains('message', LogLevel::ERROR));
-        $this->assertTrue($testHandlerBar->hasRecordThatContains('message', LogLevel::ERROR));
+        $this->assertTrue($testHandler->hasRecordThatContains('message', Level::Error));
+        $this->assertTrue($testHandlerBar->hasRecordThatContains('message', Level::Error));
     }
     
     public function testLogMethods()
@@ -52,28 +53,28 @@ class StackLoggerTest extends TestCase
         $stackLogger = new StackLogger($logger);
         
         $stackLogger->emergency('emergency msg');
-        $this->assertTrue($testHandler->hasRecordThatContains('emergency msg', LogLevel::EMERGENCY));
+        $this->assertTrue($testHandler->hasRecordThatContains('emergency msg', Level::Emergency));
         
         $stackLogger->alert('alert msg');
-        $this->assertTrue($testHandler->hasRecordThatContains('alert msg', LogLevel::ALERT));
+        $this->assertTrue($testHandler->hasRecordThatContains('alert msg', Level::Alert));
         
         $stackLogger->critical('critical msg');
-        $this->assertTrue($testHandler->hasRecordThatContains('critical msg', LogLevel::CRITICAL));
+        $this->assertTrue($testHandler->hasRecordThatContains('critical msg', Level::Critical));
         
         $stackLogger->error('error msg');
-        $this->assertTrue($testHandler->hasRecordThatContains('error msg', LogLevel::ERROR));
+        $this->assertTrue($testHandler->hasRecordThatContains('error msg', Level::Error));
         
         $stackLogger->warning('warning msg');
-        $this->assertTrue($testHandler->hasRecordThatContains('warning msg', LogLevel::WARNING));
+        $this->assertTrue($testHandler->hasRecordThatContains('warning msg', Level::Warning));
         
         $stackLogger->notice('notice msg');
-        $this->assertTrue($testHandler->hasRecordThatContains('notice msg', LogLevel::NOTICE));
+        $this->assertTrue($testHandler->hasRecordThatContains('notice msg', Level::Notice));
 
         $stackLogger->info('info msg');
-        $this->assertTrue($testHandler->hasRecordThatContains('info msg', LogLevel::INFO));
+        $this->assertTrue($testHandler->hasRecordThatContains('info msg', Level::Info));
         
         $stackLogger->debug('debug msg');
-        $this->assertTrue($testHandler->hasRecordThatContains('debug msg', LogLevel::DEBUG));
+        $this->assertTrue($testHandler->hasRecordThatContains('debug msg', Level::Debug));
     }
     
     public function testLogWithoutAnyLogger()
