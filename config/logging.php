@@ -15,6 +15,7 @@ use Tobento\App\Logging\Monolog\EventHandler;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Monolog\Level;
 use Monolog\Logger;
 use Monolog\Handler;
 use Monolog\Formatter;
@@ -64,7 +65,7 @@ return [
                         filename: directory('app').'storage/logs/daily.log',
                         // The maximal amount of files to keep (0 means unlimited)
                         maxFiles: 30,
-                        level: Logger::DEBUG,
+                        level: Level::Debug,
                     ),
                     $c->get(EventHandler::class),
                 ],
@@ -80,7 +81,7 @@ return [
                 handlers: [
                     new Handler\StreamHandler(
                         stream: directory('app').'storage/logs/error.log',
-                        level: Logger::ERROR,
+                        level: Level::Error,
                     ),
                     $c->get(EventHandler::class),
                     // new Handler\ErrorLogHandler(),
