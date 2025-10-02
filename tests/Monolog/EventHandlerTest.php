@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Tobento\App\Logging\Test\Monolog;
 
+use Monolog\Level;
+use Monolog\LogRecord;
 use PHPUnit\Framework\TestCase;
 use Tobento\App\Logging\Monolog\EventHandler;
 use Tobento\App\Logging\Event;
@@ -33,13 +35,13 @@ class EventHandlerTest extends TestCase
             eventDispatcher: $events,
         );
 
-        $result = $handler->handle([
-            'datetime' => new \DateTimeImmutable(),
-            'channel' => 'foo',
-            'level' => 100,
-            'message' => 'msg',
-            'context' => ['key' => 'value'],
-        ]);
+        $result = $handler->handle(new LogRecord(
+            datetime: new \DateTimeImmutable(),
+            channel: 'foo',
+            level: Level::Debug,
+            message: 'msg',
+            context: ['key' => 'value'],
+        ));
         
         $this->assertFalse($result);        
         $this->assertSame('debug', $container->get('event')->level());
@@ -60,13 +62,13 @@ class EventHandlerTest extends TestCase
             bubble: false,
         );
 
-        $result = $handler->handle([
-            'datetime' => new \DateTimeImmutable(),
-            'channel' => 'foo',
-            'level' => 100,
-            'message' => 'msg',
-            'context' => ['key' => 'value'],
-        ]);
+        $result = $handler->handle(new LogRecord(
+            datetime: new \DateTimeImmutable(),
+            channel: 'foo',
+            level: Level::Debug,
+            message: 'msg',
+            context: ['key' => 'value'],
+        ));
         
         $this->assertTrue($result);        
         $this->assertSame('debug', $container->get('event')->level());
@@ -80,13 +82,13 @@ class EventHandlerTest extends TestCase
             eventDispatcher: null,
         );
 
-        $result = $handler->handle([
-            'datetime' => new \DateTimeImmutable(),
-            'channel' => 'foo',
-            'level' => 100,
-            'message' => 'msg',
-            'context' => ['key' => 'value'],
-        ]);
+        $result = $handler->handle(new LogRecord(
+            datetime: new \DateTimeImmutable(),
+            channel: 'foo',
+            level: Level::Debug,
+            message: 'msg',
+            context: ['key' => 'value'],
+        ));
         
         $this->assertFalse($result);
     }
