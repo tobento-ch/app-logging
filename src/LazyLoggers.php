@@ -147,7 +147,7 @@ class LazyLoggers implements LoggersInterface
         try {
             $factory = $this->autowire->resolve($this->loggers[$name]['factory']);
         } catch (AutowireException $e) {
-            throw new LoggingException($e->getMessage(), (int)$e->getCode(), $e);
+            throw new LoggingException($e->getMessage(), $e->getCode(), $e);
         }
         
         if (! $factory instanceof LoggerFactoryInterface) {
