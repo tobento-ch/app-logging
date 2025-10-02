@@ -35,6 +35,10 @@ class LoggerTraitTest extends TestCase
     
     public function testUsesNullLoggerIfNoneExists()
     {
+        $container = new Container();
+        $functions = new Functions();
+        $functions->set(ContainerInterface::class, $container);
+        
         $logger = $this->getLogger();
         $this->assertInstanceOf(NullLogger::class, $this->getLogger());
         $this->assertSame($logger, $this->getLogger());
