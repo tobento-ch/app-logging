@@ -32,7 +32,7 @@ composer require tobento/app-logging
 
 ## Requirements
 
-- PHP 8.0 or greater
+- PHP 8.4 or greater
 
 # Documentation
 
@@ -55,7 +55,7 @@ use Tobento\App\Logging\LoggersInterface;
 use Psr\Log\LoggerInterface;
 
 // Create the app
-$app = (new AppFactory())->createApp();
+$app = new AppFactory()->createApp();
 
 // Add directories:
 $app->dirs()
