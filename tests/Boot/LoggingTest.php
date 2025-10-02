@@ -24,6 +24,7 @@ use Tobento\App\AppFactory;
 use Tobento\App\Boot;
 use Tobento\Service\Filesystem\Dir;
 use Tobento\Service\Event\EventsInterface;
+use Monolog\Level;
 use Monolog\Logger;
 use Monolog\Handler\TestHandler;
 use Psr\Log\LoggerInterface;
@@ -103,7 +104,7 @@ class LoggingTest extends TestCase
         
         $foo->logInfo('message');
         
-        $this->assertTrue($testHandler->hasRecordThatContains('message', LogLevel::INFO));
+        $this->assertTrue($testHandler->hasRecordThatContains('message', Level::Info));
     }
 
     public function testLogMessage()
