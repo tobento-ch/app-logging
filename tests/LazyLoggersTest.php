@@ -105,6 +105,18 @@ class LazyLoggersTest extends TestCase
         $this->assertInstanceof(LoggerInterface::class, $loggers->get('primary'));
         $this->assertSame($loggers->logger('primary'), $loggers->logger('primary'));
     }
+    
+    public function testUsingLoggerIsCached()
+    {
+        $logger = new NullLogger();
+        $loggers = new LazyLoggers(new Container(), ['primary' => $logger]);
+
+        $this->assertSame(0, count($loggers->created()));
+
+        $loggers->get('primary');
+
+        $this->assertSame(1, count($loggers->created()));
+    }
 
     public function testAddMethodUsingLogger()
     {
