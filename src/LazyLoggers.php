@@ -127,7 +127,7 @@ class LazyLoggers implements LoggersInterface
         }
 
         if ($this->loggers[$name] instanceof LoggerInterface) {
-            return $this->loggers[$name];
+            return $this->createdLoggers[$name] = $this->loggers[$name];
         }
         
         // create logger from callable:
